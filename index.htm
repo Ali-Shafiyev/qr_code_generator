@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QR Code Generator</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap');
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #1c92d2, #f2fcfe);
+        }
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+            width: 300px;
+            transition: all 0.3s ease-in-out;
+        }
+        .container:hover {
+            transform: scale(1.05);
+        }
+        h2 {
+            color: #1c92d2;
+        }
+        #qr-input {
+            padding: 10px 9px;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #1c92d2; /* Blue */
+            color: white; /* White text */
+            cursor: pointer;
+            margin-right: 10px; /* Space between buttons */
+        }
+        button:hover {
+            background-color: #1565c0; /* Darker blue */
+        }
+        .clearr{
+            margin-top: 5px;
+        }
+        #qr-result {
+            margin-top: 15px;
+        }
+        a {
+            display: inline-block;
+            margin-top: 10px;
+            color: #1c92d2; /* Blue */
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>QR Code Generator</h2>
+        <input id="qr-input" type="text" placeholder="Enter text" />
+        <br/>
+        <button onclick="generateQR()">Generate QR Code</button>
+        <button class="clearr" onclick="clearQR()">Clear QR Code</button>
+        <div id="qr-result"></div>
+        <a id="download-link" href="#" download="qrcode.png">Download QR Code</a>
+    </div>
+
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+    <script>
+        function generateQR() {
+            let qrInput = document.getElementById('qr-input').value;
+            
+            // Clear existing QR code
+            document.getElementById('qr-result').innerHTML = "";
+            
+            let qrcode = new QRCode(document.getElementById("qr-result"), {
+                text: qrInput,
+                width: 128,
+                height: 128
+            });
+
+            // Create download link
+            let canvas = document.getElementsByTagName('canvas')[0];
+            let img = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+            
+            document.getElementById('download-link').href = img;
+        }
+
+        function clearQR() {
+          // Clear input field
+          document.getElementById('qr-input').value = "";
+          
+          // Clear existing QR code
+          document.getElementById('qr-result').innerHTML = "";
+          
+          // Clear download link
+          document.getElementById('download-link').href = "#";
+      }
+    </script>
+</body>
+</html>
